@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   const [countries, setCountries] = useState([]);
@@ -11,6 +12,7 @@ function HomePage() {
     if (response.ok) {
       const parsed = await response.json();
       setCountries(parsed);
+      console.log(parsed)
       setIsLoading(false);
     }
   };
@@ -28,9 +30,12 @@ function HomePage() {
     <h1>WikiCountries: Your Guide to the World</h1>
     <ul>
         {countries.map(currentCountry => (
-            <li key={currentCountry._id}>
+            <Link to={`${currentCountry.alpha3Code}`} key={currentCountry._id}>
+            <li>
+                <img src={`https://flagpedia.net/data/flags/icon/72x54/${currentCountry.alpha2Code.toLowerCase()}.png`} />
                 <h4>{currentCountry.name.official}</h4>
             </li>
+            </Link>
         ))}
     </ul>
     </>
